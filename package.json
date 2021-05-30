@@ -1,0 +1,17 @@
+{
+  "name": "sxf-project-view",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "demo": "node ./src/index.js && http-server ."
+  },
+  "dependencies": {
+    "@babel/parser": "^7.14.4",
+    "@babel/traverse": "^7.14.2",
+    "@vue/component-compiler-utils": "^3.2.0",
+    "http-server": "^0.12.3"
+  },
+  "devDependencies": {
+    "vue-template-compiler": "^2.6.12"
+  }
+}
