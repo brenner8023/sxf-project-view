@@ -2,7 +2,11 @@ export default {
     "nodes": [
         {
             "id": "D:\\GitHub\\sxf-project-view\\demo\\demo.js",
-            "tip": "D:\\GitHub\\sxf-project-view\\demo\\demo.js",
+            "tip": "\\demo\\demo.js",
+            "style": {
+                "fill": "#BDEFDB"
+            },
+            "type": "rect",
             "label": "demo.js"
         },
         {
@@ -12,7 +16,7 @@ export default {
         },
         {
             "id": "D:\\GitHub\\sxf-project-view\\demo\\demo2.js",
-            "tip": "D:\\GitHub\\sxf-project-view\\demo\\demo2.js",
+            "tip": "\\demo\\demo2.js",
             "label": "demo2.js"
         },
         {
@@ -22,7 +26,7 @@ export default {
         },
         {
             "id": "D:\\GitHub\\sxf-project-view\\demo\\demo.vue",
-            "tip": "D:\\GitHub\\sxf-project-view\\demo\\demo.vue",
+            "tip": "\\demo\\demo.vue",
             "label": "demo.vue"
         },
         {
@@ -37,7 +41,7 @@ export default {
         },
         {
             "id": "D:\\GitHub\\sxf-project-view\\demo\\demo3.ts",
-            "tip": "D:\\GitHub\\sxf-project-view\\demo\\demo3.ts",
+            "tip": "\\demo\\demo3.ts",
             "label": "demo3.ts"
         },
         {
@@ -47,7 +51,7 @@ export default {
         },
         {
             "id": "D:\\GitHub\\sxf-project-view\\demo\\index.css",
-            "tip": "D:\\GitHub\\sxf-project-view\\demo\\index.css",
+            "tip": "\\demo\\index.css",
             "label": "index.css"
         },
         {

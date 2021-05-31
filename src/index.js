@@ -33,7 +33,11 @@ function main (options) {
 
         resData.nodes.push({
             id: entryPath,
-            tip: entryPath,
+            tip: entryPath.replace(process.cwd(), ''),
+            style: {
+                fill: '#BDEFDB'
+            },
+            type: 'rect',
             label: path.basename(entryPath)
         });
         traverseModule(aliasMap, entryPath, resData);

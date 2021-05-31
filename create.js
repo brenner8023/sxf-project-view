@@ -1,22 +1,29 @@
 import resData from './data.js';
 
+const tooltip = new G6.Tooltip({
+    offsetX: 10,
+    offsetY: 10,
+    itemTypes: ['node'],
+    getContent: (e) => {
+    const outDiv = document.createElement('div');
+    outDiv.style.width = 'fit-content';
+    //outDiv.style.padding = '0px 0px 20px 0px';
+    outDiv.innerHTML = `
+        <span>${e.item.getModel().tip}</span>`;
+    return outDiv;
+    },
+});
+
 const graph = new G6.Graph({
     container: 'app',
     width: 1366,
     height: 800,
+    plugins: [tooltip],
     modes: {
         default: [
-        'drag-canvas', 'drag-node',
-        {
-            type: 'tooltip',
-            formatText: function formatText(model) {
-                return model.tip;
-            },
-            shouldUpdate: function shouldUpdate() {
-                return true;
-            },
-        }
-],
+            'drag-canvas',
+            'drag-node'
+        ],
     },
     layout: {
         type: 'radial',
@@ -41,3 +48,10 @@ const graph = new G6.Graph({
 
 graph.data(resData);
 graph.render();
+
+graph.on('node:mouseenter', (e) => {
+    graph.setItemState(e.item, 'active', true);
+});
+graph.on('node:mouseleave', (e) => {
+    graph.setItemState(e.item, 'active', false);
+});

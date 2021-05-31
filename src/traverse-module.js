@@ -79,7 +79,7 @@ function setResData (subModulePath, filePath, resData) {
     subModulePath = completeFilePath(subModulePath, filePath);
     !accessedFiles.has(subModulePath) && resData.nodes.push({
         id: subModulePath,
-        tip: subModulePath,
+        tip: subModulePath.replace(process.cwd(), ''),
         label: path.basename(subModulePath)
     });
     resData.edges.push({
