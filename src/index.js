@@ -7,7 +7,8 @@ const defaultOptions = {
     entry: ['./demo/demo.js'],
     alias: {
         '$$': 'jquery',
-        '$': 'jquery'
+        '$': 'jquery',
+        'vue': 'vue/dist/runtime.js'
     }
 };
 

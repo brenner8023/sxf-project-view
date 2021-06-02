@@ -53,6 +53,9 @@ function isDir (filePath) {
 
 function completeFilePath (subFilePath, filePath) {
 
+    // 去除/**webpackChunkName */这种
+    subFilePath = subFilePath.replace(/\/\*(\s|.)*?\*\/\s*/, '');
+
     // 相对路径
     if (/^\.{1,2}\//.test(subFilePath)) {
         subFilePath = path.resolve(path.dirname(filePath), subFilePath);
@@ -60,14 +63,18 @@ function completeFilePath (subFilePath, filePath) {
 
     // 别名
     Object.keys(aliasMap).forEach(key => {
-        if (subFilePath.startsWith(key))
-            subFilePath = subFilePath.replace(key, aliasMap[key]);
+        if (subFilePath === '$' || subFilePath === '$$') {
+            subFilePath = 'jquery';
+            return;
+        }
+        let reg = new RegExp(`^${key}`);
+        subFilePath = subFilePath.replace(reg, aliasMap[key]);
     });
 
     // 忽略了文件后缀
     if (!/\.[a-zA-Z]+$/.test(subFilePath)) {
         if (isDir(subFilePath)) {
-            subFilePath = completeExt(Path.join(subFilePath, 'index'));
+            subFilePath = completeExt(path.join(subFilePath, 'index'));
         }
         subFilePath = completeExt(subFilePath);
     }
@@ -76,6 +83,12 @@ function completeFilePath (subFilePath, filePath) {
 }
 
 function setResData (subModulePath, filePath, resData) {
+
+    let fileExt = path.extname(subModulePath),
+        excludeExts = ['.css', '.jpg', '.png', '.svg', '.scss', '.less'];
+    if (excludeExts.includes(fileExt))
+        return;
+
     subModulePath = completeFilePath(subModulePath, filePath);
     !accessedFiles.has(subModulePath) && resData.nodes.push({
         id: subModulePath,

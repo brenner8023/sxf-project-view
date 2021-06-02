@@ -11,9 +11,25 @@
             padding: 0px 10px 24px 10px;
             box-shadow: rgb(174, 174, 174) 0px 0px 10px;
         }
+
+        .input-wrap {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        #app {
+            width: 98vw;
+            height: 90vh;
+            margin: 20px auto;
+            border: 1px solid #000;
+        }
     </style>
 </head>
 <body>
+    <div class="input-wrap">
+        <input id="node-search-input" type="search" placeholder="搜索" />
+    </div>
     <div id="app"></div>
     <script src='./lib/g6.min.js'></script>
     <script src="./create.js" type="module"></script>

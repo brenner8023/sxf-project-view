@@ -7,17 +7,21 @@ const tooltip = new G6.Tooltip({
     getContent: (e) => {
     const outDiv = document.createElement('div');
     outDiv.style.width = 'fit-content';
-    //outDiv.style.padding = '0px 0px 20px 0px';
     outDiv.innerHTML = `
-        <span>${e.item.getModel().tip}</span>`;
+        <div style="font-weight: bold;">${e.item.getModel().tip}</div>
+        <div>被引用计数：${e.item.getInEdges().length}</div>
+    `;
     return outDiv;
     },
 });
 
+let $app = document.getElementById('app'),
+    $searchInput = document.getElementById('node-search-input');
+
 const graph = new G6.Graph({
     container: 'app',
-    width: 1366,
-    height: 800,
+    width: $app.scrollWidth,
+    height: $app.scrollHeight,
     plugins: [tooltip],
     modes: {
         default: [
@@ -26,11 +30,10 @@ const graph = new G6.Graph({
         ],
     },
     layout: {
-        type: 'radial',
-        unitRadius: 100,
-        nodeSpacing: 100,
+        type: 'gForce',
         preventOverlap: true,
-        strictRadial: false,
+        nodeSize: 40,             // 可选
+        gpuEnabled: true          // 可选，开启 GPU 并行计算，G6 4.0 支持
     },
     animate: true,
     defaultNode: {
@@ -48,6 +51,19 @@ const graph = new G6.Graph({
 
 graph.data(resData);
 graph.render();
+
+$searchInput.addEventListener('keyup', (e) => {
+    if (e.code !== 'Enter') {
+        return;
+    }
+    const targetNode = graph.find('node', (node) => {
+        return node.get('model').tip.includes($searchInput.value);
+    });
+    graph.focusItem(targetNode, true, {
+        easing: 'easeCubic',
+        duration: 500,
+    });
+});
 
 graph.on('node:mouseenter', (e) => {
     graph.setItemState(e.item, 'active', true);

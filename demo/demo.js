@@ -1,7 +1,5 @@
 import $ from '$';
 
-import jquery from '$$';
-
 import ac from './demo2.js';
 
 require('cccs');

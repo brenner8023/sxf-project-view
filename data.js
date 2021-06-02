@@ -20,9 +20,9 @@ export default {
             "label": "demo2.js"
         },
         {
-            "id": "vue",
-            "tip": "vue",
-            "label": "vue"
+            "id": "vue/dist/runtime.js",
+            "tip": "vue/dist/runtime.js",
+            "label": "runtime.js"
         },
         {
             "id": "D:\\GitHub\\sxf-project-view\\demo\\demo.vue",
@@ -50,11 +50,6 @@ export default {
             "label": "kk"
         },
         {
-            "id": "D:\\GitHub\\sxf-project-view\\demo\\index.css",
-            "tip": "\\demo\\index.css",
-            "label": "index.css"
-        },
-        {
             "id": "cccs",
             "tip": "cccs",
             "label": "cccs"
@@ -72,15 +67,11 @@ export default {
         },
         {
             "source": "D:\\GitHub\\sxf-project-view\\demo\\demo.js",
-            "target": "jquery"
-        },
-        {
-            "source": "D:\\GitHub\\sxf-project-view\\demo\\demo.js",
             "target": "D:\\GitHub\\sxf-project-view\\demo\\demo2.js"
         },
         {
             "source": "D:\\GitHub\\sxf-project-view\\demo\\demo2.js",
-            "target": "vue"
+            "target": "vue/dist/runtime.js"
         },
         {
             "source": "D:\\GitHub\\sxf-project-view\\demo\\demo2.js",
@@ -105,10 +96,6 @@ export default {
         {
             "source": "D:\\GitHub\\sxf-project-view\\demo\\demo3.ts",
             "target": "kk"
-        },
-        {
-            "source": "D:\\GitHub\\sxf-project-view\\demo\\demo2.js",
-            "target": "D:\\GitHub\\sxf-project-view\\demo\\index.css"
         },
         {
             "source": "D:\\GitHub\\sxf-project-view\\demo\\demo.js",
