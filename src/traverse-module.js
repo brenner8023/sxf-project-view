@@ -6,6 +6,7 @@ const traverse = require('@babel/traverse').default;
 const { parse: vueParse } = require('@vue/component-compiler-utils');
 
 let aliasMap = {};
+const tsPlugins = ['typescript', 'classProperties', 'decorators-legacy'];
 const supportExts = ['.js', '.ts', '.jsx', '.tsx', '.vue'];
 const extList = ['.js', '.ts', '.json'];
 
@@ -26,7 +27,7 @@ function addSyntaxtPlugins (filePath) {
         plugins.push('jsx');
     }
     if (['.tsx', '.ts'].some(ext => filePath.endsWith(ext))) {
-        plugins.push('typescript');
+        plugins.push(...['typescript', 'classProperties', 'decorators-legacy']);
     }
 
     return plugins;
@@ -84,12 +85,13 @@ function completeFilePath (subFilePath, filePath) {
 
 function setResData (subModulePath, filePath, resData) {
 
-    let fileExt = path.extname(subModulePath),
-        excludeExts = ['.css', '.jpg', '.png', '.svg', '.scss', '.less'];
-    if (excludeExts.includes(fileExt))
-        return;
-
     subModulePath = completeFilePath(subModulePath, filePath);
+
+    let fileExt = path.extname(subModulePath);
+    if (!supportExts.includes(fileExt)) {
+        return;
+    }
+
     !accessedFiles.has(subModulePath) && resData.nodes.push({
         id: subModulePath,
         tip: subModulePath.replace(process.cwd(), ''),
@@ -111,22 +113,29 @@ function traverseModule (filePath, resData) {
     }
     let fileContent = fs.readFileSync(filePath, { encoding: 'utf-8' });
     let plugins = [];
-    if (filePath.endsWith('.vue')) {
-        let descriptor = vueParse({
-            source: fileContent,
-            compiler: require('vue-template-compiler'),
-            needMap: false
+    let ast = null;
+
+    try {
+        if (filePath.endsWith('.vue')) {
+            let descriptor = vueParse({
+                source: fileContent,
+                compiler: require('vue-template-compiler'),
+                needMap: false
+            });
+            fileContent = descriptor.script.content;
+            descriptor.script.lang === 'ts' && plugins.push(...tsPlugins);
+        }
+    
+        ast = parser.parse(fileContent, {
+            sourceType: 'unambiguous',
+            plugins: plugins.concat(addSyntaxtPlugins(filePath))
         });
-        fileContent = descriptor.script.content;
-        descriptor.script.lang === 'ts' && plugins.push('typescript');
+    } catch (e) {
+        ast = null;
+        console.log(`${filePath}文件解析失败`);
     }
 
-    const ast = parser.parse(fileContent, {
-        sourceType: 'unambiguous',
-        plugins: plugins.concat(addSyntaxtPlugins(filePath))
-    });
-
-    traverse(ast, {
+    ast && traverse(ast, {
         ImportDeclaration (path) {
             let subModulePath = path.get('source.value').node;
             setResData(subModulePath, filePath, resData);

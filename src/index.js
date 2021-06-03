@@ -4,11 +4,8 @@ const fs = require('fs');
 const traverseModule = require('./traverse-module');
 
 const defaultOptions = {
-    entry: ['./demo/demo.js'],
+    entry: ['./demo/fast-glob/out/index.js'],
     alias: {
-        '$$': 'jquery',
-        '$': 'jquery',
-        'vue': 'vue/dist/runtime.js'
     }
 };
 

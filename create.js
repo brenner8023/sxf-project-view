@@ -30,10 +30,9 @@ const graph = new G6.Graph({
         ],
     },
     layout: {
-        type: 'gForce',
-        preventOverlap: true,
-        nodeSize: 40,             // 可选
-        gpuEnabled: true          // 可选，开启 GPU 并行计算，G6 4.0 支持
+        type: 'dagre',
+        nodesepFunc: () => 1,
+        ranksepFunc: () => 1
     },
     animate: true,
     defaultNode: {
@@ -52,6 +51,7 @@ const graph = new G6.Graph({
 graph.data(resData);
 graph.render();
 
+let prevSearchNode = null;
 $searchInput.addEventListener('keyup', (e) => {
     if (e.code !== 'Enter') {
         return;
@@ -59,6 +59,9 @@ $searchInput.addEventListener('keyup', (e) => {
     const targetNode = graph.find('node', (node) => {
         return node.get('model').tip.includes($searchInput.value);
     });
+    prevSearchNode && graph.setItemState(prevSearchNode, 'active', false);
+    graph.setItemState(targetNode, 'active', true);
+    prevSearchNode = targetNode;
     graph.focusItem(targetNode, true, {
         easing: 'easeCubic',
         duration: 500,
